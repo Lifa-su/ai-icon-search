@@ -568,6 +568,99 @@ document.addEventListener('keydown', e => {
 renderGrid();
 
 </script>
+
+<!-- Pro Features Section -->
+<style>
+.pro-section{max-width:1400px;margin:0 auto;padding:0 24px 40px}
+.pro-section h2{font-size:20px;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.pro-section h2 span{background:linear-gradient(135deg,#6c63ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pro-wrapper{position:relative;border-radius:16px;overflow:hidden;cursor:pointer;border:1px solid var(--border)}
+.pro-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:32px;filter:blur(5px);pointer-events:none;user-select:none}
+.pro-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 20px;text-align:center}
+.pro-card .pro-card-icon{font-size:36px;margin-bottom:12px}
+.pro-card h3{font-size:15px;font-weight:600;color:#fff;margin-bottom:6px}
+.pro-card p{font-size:12px;color:var(--text2);line-height:1.5}
+.pro-lock-overlay{position:absolute;inset:0;background:rgba(22,33,62,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:background .2s}
+.pro-wrapper:hover .pro-lock-overlay{background:rgba(22,33,62,.5)}
+.pro-lock-overlay .lock-icon{font-size:40px}
+.pro-lock-overlay .lock-text{font-size:18px;font-weight:700;color:#fff;letter-spacing:.5px}
+.pro-lock-overlay .lock-sub{font-size:13px;color:var(--text2)}
+
+.pro-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.pro-modal-overlay.show{display:flex}
+.pro-modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:420px;padding:36px 32px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.pro-modal h3{font-size:22px;font-weight:700;color:#fff;margin-bottom:24px}
+.pro-modal-features{list-style:none;text-align:left;margin-bottom:24px}
+.pro-modal-features li{padding:10px 0;font-size:15px;color:var(--text);display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+.pro-modal-features li:last-child{border-bottom:none}
+.pro-modal-features .check{color:var(--success);font-size:18px;flex-shrink:0}
+.pro-modal-price{font-size:36px;font-weight:800;color:#fff;margin-bottom:6px}
+.pro-modal-price-sub{font-size:13px;color:var(--text2);margin-bottom:24px}
+.pro-modal .btn-upgrade{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#6c63ff,#a78bfa);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:600;cursor:pointer;transition:opacity .2s;text-align:center}
+.pro-modal .btn-upgrade:hover{opacity:.9}
+.pro-modal .btn-later{display:block;width:100%;padding:10px;background:none;border:none;color:var(--text2);font-size:14px;cursor:pointer;margin-top:12px;transition:color .2s}
+.pro-modal .btn-later:hover{color:var(--text)}
+@media(max-width:640px){.pro-cards{grid-template-columns:1fr;gap:12px;padding:20px}}
+</style>
+
+<section class="pro-section">
+  <h2>✨ <span>Pro Features</span></h2>
+  <div class="pro-wrapper" id="proWrapper" role="button" tabindex="0" aria-label="Unlock Pro Features">
+    <div class="pro-cards">
+      <div class="pro-card">
+        <div class="pro-card-icon">📦</div>
+        <h3>Batch Download</h3>
+        <p>Select multiple icons and export them all at once as a ZIP archive.</p>
+      </div>
+      <div class="pro-card">
+        <div class="pro-card-icon">✏️</div>
+        <h3>SVG Editor</h3>
+        <p>Edit icons directly in the browser — adjust paths, colors, and transforms.</p>
+      </div>
+      <div class="pro-card">
+        <div class="pro-card-icon">📁</div>
+        <h3>Icon Pack Manager</h3>
+        <p>Organize icons into custom collections and export entire packs.</p>
+      </div>
+    </div>
+    <div class="pro-lock-overlay">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-text">Pro Features</div>
+      <div class="lock-sub">Click to unlock</div>
+    </div>
+  </div>
+</section>
+
+<div class="pro-modal-overlay" id="proModalOverlay">
+  <div class="pro-modal">
+    <h3>🔓 Unlock Pro Features</h3>
+    <ul class="pro-modal-features">
+      <li><span class="check">✓</span> Batch Download (ZIP export)</li>
+      <li><span class="check">✓</span> Built-in SVG Editor</li>
+      <li><span class="check">✓</span> Icon Pack Manager</li>
+    </ul>
+    <div class="pro-modal-price">$14</div>
+    <div class="pro-modal-price-sub">One-time payment · Lifetime access</div>
+    <a href="https://feifeicch.gumroad.com/l/ai-icon-search-pro" target="_blank" rel="noopener" class="btn-upgrade">Upgrade to Pro — $14</a>
+    <button class="btn-later" id="proModalClose">Maybe later</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const proWrapper=document.getElementById('proWrapper');
+  const proOverlay=document.getElementById('proModalOverlay');
+  const proClose=document.getElementById('proModalClose');
+  function openPro(){proOverlay.classList.add('show');document.body.style.overflow='hidden';}
+  function closePro(){proOverlay.classList.remove('show');document.body.style.overflow='';}
+  proWrapper.addEventListener('click',openPro);
+  proWrapper.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openPro();}});
+  proClose.addEventListener('click',closePro);
+  proOverlay.addEventListener('click',function(e){if(e.target===proOverlay)closePro();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&proOverlay.classList.contains('show'))closePro();});
+})();
+</script>
+
 <script src="https://alwingulla.com/88/tag.min.js" data-zone="130747" async data-cfasync="false"></script>
 </body>
 </html>
